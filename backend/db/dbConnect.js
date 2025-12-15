@@ -3,7 +3,7 @@ require("dotenv").config();
 
 async function dbConnect() {
   mongoose
-    .connect(process.env.DB_URL)
+    .connect("mongodb+srv://huy0132004:huy153684@apps-cluster.coomzeq.mongodb.net")
     .then(() => {
       console.log("Successfully connected to MongoDB Atlas!");
     })
