@@ -1,6 +1,19 @@
+.image-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 1/3 màn hình */
+  gap: 12px;
+}
+
+.image-box {
+  aspect-ratio: 1 / 1;   /* khung vuông */
+  border: 1px solid #000;
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+}
+
 .image {
-  width: min(100%, 400px);
-  height: min(100%, 400px);
-  object-fit: cover;
-  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* cắt ảnh cho vừa khung */
 }

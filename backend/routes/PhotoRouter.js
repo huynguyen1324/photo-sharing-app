@@ -13,4 +13,10 @@ router.get("/:userId", async (request, response) => {
     response.json(photos);
 });
 
+router.get("/:photoId", async (request, response) => {
+    const { photoId } = request.params;
+    const photo = await Photo.findById(photoId);
+    response.json(photo);
+});
+
 module.exports = router;

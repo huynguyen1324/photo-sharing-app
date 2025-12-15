@@ -8,8 +8,10 @@ import TopBar from "./components/TopBar";
 import UserDetail from "./components/UserDetail";
 import UserList from "./components/UserList";
 import UserPhotos from "./components/UserPhotos";
-import { useState } from 'react';
 import Login from './components/Login';
+import { useState } from 'react';
+
+
 
 const App = (props) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem('user')));
