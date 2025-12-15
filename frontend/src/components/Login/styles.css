@@ -1,0 +1,11 @@
+#login-box {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    text-align: center;
+}
+
+#login-box * {
+    display: block;
+    padding-bottom: 10px;
+}

@@ -38,6 +38,7 @@ function UserPhotos() {
           <hr />
           <img src={`/images/${photo.file_name}`} className="image" alt="" />
           <br />
+          <Typography variant="h6">COMMENTS</Typography>
           {photo.comments.map((comment) => (
             <div>
               <Link href={`/users/${comment.user._id}`}>
@@ -50,6 +51,7 @@ function UserPhotos() {
               </Typography>
             </div>
           ))}
+          
         </div>
       ))}
     </div>

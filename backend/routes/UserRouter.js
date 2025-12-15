@@ -13,5 +13,18 @@ router.get("/:id", async (request, response) => {
     response.json(user);
 });
 
+router.post("/login", async (req, res) => {
+  const { username, password } = req.body;
+
+  const user = await User.findOne({ username, password });
+
+  if (user) {
+    return res.status(200).json(user).message;
+  } else {
+    return res.status(401).json({ message: "Wrong username or password" });
+  }
+});
+
+
 
 module.exports = router;

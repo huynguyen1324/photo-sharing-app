@@ -58,6 +58,8 @@ const im = {
   location: "Austin, TX",
   description: "Should've stayed in the car.",
   occupation: "Mathematician",
+  username: "ian",
+  password: "123",
 };
 const er = {
   _id: "57231f1a30e4351f4e9f4bd8",
@@ -66,6 +68,8 @@ const er = {
   location: "Nostromo",
   description: "Lvl 6 rating. Pilot.",
   occupation: "Warrant Officer",
+  username: "ellen",
+  password: "123",
 };
 const pt = {
   _id: "57231f1a30e4351f4e9f4bd9",
@@ -78,6 +82,8 @@ const pt = {
     "until the stars are all alight... Mist and shadow, cloud and shade, " +
     "all shall fade... all... shall... fade... ",
   occupation: "Thain",
+  username: "peregrin",
+  password: "123",
 };
 const rk = {
   _id: "57231f1a30e4351f4e9f4bda",
@@ -86,6 +92,8 @@ const rk = {
   location: "D'Qar",
   description: "Excited to be here!",
   occupation: "Rebel",
+  username: "rey",
+  password: "123",
 };
 const al = {
   _id: "57231f1a30e4351f4e9f4bdb",
@@ -94,6 +102,8 @@ const al = {
   location: "Pawnee, IN",
   description: "Witch",
   occupation: "Animal Control",
+  username: "april",
+  password: "123",
 };
 const jo = {
   _id: "57231f1a30e4351f4e9f4bdc",
@@ -102,6 +112,8 @@ const jo = {
   location: "Stanford, CA",
   description: "<i>CS142!</i>",
   occupation: "Professor",
+  username: "john",
+  password: "123",
 };
 
 const users = [im, er, pt, rk, al, jo];

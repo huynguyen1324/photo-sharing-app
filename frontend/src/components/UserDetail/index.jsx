@@ -34,7 +34,7 @@ function UserDetail() {
       <Typography>
         <strong>Description: </strong> {user.description}
       </Typography>
-      <Button href={`/photos/${userId}`} variant="contained">
+      <Button variant="contained" href={`/photos/${userId}`}>
         View Photos
       </Button>
     </div>
