@@ -1,6 +1,5 @@
 import "./styles.css";
-import { AppBar, Box, Button, TextField, Typography } from "@mui/material";
-import { use } from "react";
+import { Box, Button, TextField, Typography } from "@mui/material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -21,7 +20,7 @@ function Login({ setUser }) {
       body: JSON.stringify({ username, password })
     })
     if (res.status === 200) {
-      alert("Login successful!");
+      alert("Login successfully!");
       
       const user = await res.json();
       setUser(user);

@@ -1,11 +1,8 @@
-import { AppBar, Box, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 
 import "./styles.css";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-/**
- * Define TopBar, a React component of Project 4.
- */
 function TopBar({ user, setUser }) {
   const navigate = useNavigate();
 
@@ -20,27 +17,29 @@ function TopBar({ user, setUser }) {
   return (
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
-        <Typography variant="h5" color="inherit" sx={{ flexGrow: 1 }}>
+        <Typography
+          variant="h5"
+          component={Link} to="/"
+          color="inherit"
+          sx={{ flexGrow: 1, textDecoration: "none" }}
+        >
           Photo Sharing App
         </Typography>
-        {user && (
-          <Typography variant="h6" sx={{ marginRight: 2 }}>
-            Hi, {user.first_name} {user.last_name}!
-          </Typography>
-        )}
-        <Box>
+        <div id="right-topbar">
           {user ? (
-            <Button variant="contained" onClick={handleLogout}>
-              <Typography variant="h6">Logout</Typography>
-            </Button>
+            <>
+              <Typography>Hi, {user.first_name} {user.last_name}!</Typography>
+              <Button variant="contained" onClick={handleLogout}>LOGOUT</Button>
+            </>
           ) : (
-            <Button variant="contained" href="/login">
-              <Typography variant="h6">Login</Typography>
-            </Button>
+            <>
+              <Button variant="contained" href="/login">LOGIN</Button>
+              <Button variant="contained" href="/register">REGISTER</Button>
+            </>
           )}
-        </Box>
+        </div>
       </Toolbar>
-    </AppBar>
+    </AppBar >
   );
 }
 

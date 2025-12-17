@@ -5,8 +5,7 @@
 }
 
 .image-box {
-  aspect-ratio: 1 / 1;
-  /* khung vuông */
+  aspect-ratio: 1 / 1;   /* khung vuông */
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -15,13 +14,7 @@
 .image {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  /* cắt ảnh cho vừa khung */
-  transition: transform 0.75s ease;
-}
-
-.image:hover {
-  transform: scale(1.25);
+  object-fit: cover;     /* cắt ảnh cho vừa khung */
 }
 
 @media (min-width: 400px) {

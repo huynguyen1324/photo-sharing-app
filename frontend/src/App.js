@@ -1,15 +1,17 @@
 import './App.css';
 
-import React from "react";
-import { Grid, Typography, Paper } from "@mui/material";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Grid, Paper } from "@mui/material";
+import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import TopBar from "./components/TopBar";
 import UserDetail from "./components/UserDetail";
 import UserList from "./components/UserList";
-import UserPhotos from "./components/UserPhotos";
+import PhotoDetail from './components/PhotoDetail';
 import Login from './components/Login';
 import { useState } from 'react';
+import Register from './components/Register';
+import Home from './components/Home';
+
 
 
 
@@ -19,45 +21,59 @@ const App = (props) => {
   return (
     <Router>
       <div>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{padding: '20px'}}>
           <Grid item xs={12}>
             <TopBar user={user} setUser={setUser} />
             <div className="main-topbar-buffer" />
           </Grid>
-          {user ? (
-            <>
-              <Grid item sm={3}>
-                <Paper className="main-grid-item">
-                  <UserList />
-                </Paper>
-              </Grid>
-              <Grid item sm={9}>
-                <Paper className="main-grid-item">
-                  <Routes>
-                    <Route
-                      path="/users/:userId"
-                      element={<UserDetail />}
-                    />
-                    <Route
-                      path="/photos/:userId"
-                      element={<UserPhotos />}
-                    />
-                  </Routes>
-                </Paper>
-              </Grid>
-            </>
-          ) : (
-            <Grid item sm={12}>
-              <Paper className="main-grid-item">
-                <Routes>
-                  <Route
-                    path="/login"
-                    element={<Login setUser={setUser} />}
-                  />
-                </Routes>
-              </Paper>
-            </Grid>
-          )}
+            {user ? (
+              <>
+                <Grid item sm={2}>
+                  <Paper className="main-grid-item">
+                    <UserList />
+                  </Paper>
+                </Grid>
+                <Grid item sm={10}>
+                  <Paper className="main-grid-item">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Home />}
+                      />
+                      <Route
+                        path="/users/:userId"
+                        element={<UserDetail signedInUser={user} />}
+                      />
+                      <Route
+                        path="/photos/:photoId"
+                        element={<PhotoDetail user={user} />}
+                      />
+                    </Routes>
+                  </Paper>
+                </Grid>
+              </>
+            ) : (
+              <>
+                <Grid item sm={12}>
+                  <Paper className="main-grid-item">
+                    <Routes>
+                      <Route
+                        path="/"
+                        element={<Navigate to={`/login`} replace />}
+                      />
+                      <Route
+                        path="/login"
+                        element={<Login setUser={setUser} />}
+                      />
+                      <Route
+                        path="register"
+                        element={<Register />}
+                      />
+                    </Routes>
+                  </Paper>
+                </Grid>
+              </>
+            )}
         </Grid>
       </div>
     </Router>

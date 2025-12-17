@@ -1,10 +1,10 @@
-#login-box {
+#register-box {
     width: min(100%, 400px);
     margin: auto;
     text-align: center;
 }
 
-#login-box * {
+#register-box * {
     display: block;
     margin-bottom: 10px;
 }
