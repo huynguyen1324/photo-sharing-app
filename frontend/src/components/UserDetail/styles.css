@@ -1,12 +1,11 @@
 .image-grid {
   display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 10px;
 }
 
 .image-box {
   aspect-ratio: 1 / 1;
-  /* khung vuông */
   border-radius: 10px;
   overflow: hidden;
   cursor: pointer;
@@ -16,34 +15,9 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  /* cắt ảnh cho vừa khung */
-  transition: transform 0.75s ease;
+  transition: transform 0.25s ease-in-out;
 }
 
 .image:hover {
   transform: scale(1.25);
-}
-
-@media (min-width: 400px) {
-  .image-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 800px) {
-  .image-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1200px) {
-  .image-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-@media (min-width: 1600px) {
-  .image-grid {
-    grid-template-columns: repeat(5, 1fr);
-  }
 }

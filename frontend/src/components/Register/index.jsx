@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Register() {
+    const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
 
     const [username, setUsername] = useState("");
@@ -16,17 +17,17 @@ function Register() {
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        const res = await fetch("http://localhost:8081/api/user/register", {
+        const res = await fetch(`${API_URL}/api/user/register`, {
             method: "post",
             headers: {
                 "Accept": "application/json",
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ username, password, first_name, last_name, location, description, occupation})
+            body: JSON.stringify({ username, password, first_name, last_name, location, description, occupation })
         })
         if (res.status === 200) {
             alert("Register successfully!");
-            navigate("/login");            
+            navigate("/login");
         } else {
             alert("Register failed");
         }

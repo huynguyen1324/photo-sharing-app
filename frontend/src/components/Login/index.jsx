@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Login({ setUser }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
@@ -11,7 +12,7 @@ function Login({ setUser }) {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    const res = await fetch("http://localhost:8081/api/user/login", {
+    const res = await fetch(`${API_URL}/api/user/login`, {
       method: "post",
       headers: {
         "Accept": "application/json",
@@ -21,7 +22,6 @@ function Login({ setUser }) {
     })
     if (res.status === 200) {
       alert("Login successfully!");
-      
       const user = await res.json();
       setUser(user);
       localStorage.setItem('user', JSON.stringify(user));

@@ -1,10 +1,40 @@
-import { AppBar, Button, Toolbar, Typography } from "@mui/material";
+import { AppBar, Button, colors, Input, Toolbar, Typography } from "@mui/material";
 
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
+import { useRef } from "react";
 
 function TopBar({ user, setUser }) {
+  const API_URL = process.env.REACT_APP_API_URL;
   const navigate = useNavigate();
+  const uploadRef = useRef(null);
+
+  const handleClickUpload = () => {
+    uploadRef.current.querySelector('input').click();
+  }
+
+  const handleUploadPhoto = async (e) => {
+    const file = e.target.files[0];
+    if (!file) {
+      alert("Cannot upload this photo");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("photo", file);
+    formData.append("userId", user._id);
+
+    try {
+      const res = await fetch(`${API_URL}/api/photo/upload`, {
+        method: "post",
+        body: formData
+      })
+      const savedPhoto = await res.json();
+      navigate(`/photos/${savedPhoto._id}`);
+    } catch (error) {
+      console.error("Error uploading photo: " + error);
+    }
+  }
 
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
@@ -29,7 +59,15 @@ function TopBar({ user, setUser }) {
           {user ? (
             <>
               <Typography>Hi, {user.first_name} {user.last_name}!</Typography>
+              <Button variant="contained" onClick={handleClickUpload}>UPLOAD PHOTO</Button>
               <Button variant="contained" onClick={handleLogout}>LOGOUT</Button>
+              <Input
+                type="file"
+                accept="image/*"
+                style={{ display: 'none' }}
+                ref={uploadRef}
+                onChange={handleUploadPhoto}
+              />
             </>
           ) : (
             <>

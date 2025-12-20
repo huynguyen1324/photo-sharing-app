@@ -4,13 +4,14 @@ import { Box, Button, Link, TextField, Typography } from "@mui/material";
 import { useParams } from "react-router-dom";
 
 function PhotoDetail({ user }) {
+    const API_URL = process.env.REACT_APP_API_URL;
     const { photoId } = useParams();
     const [photo, setPhoto] = useState(null);
     const [comment, setComment] = useState("");
-    
+
     useEffect(() => {
         const fetchPhoto = async () => {
-            const res = await fetch("http://localhost:8081/api/photo/detail/" + photoId);
+            const res = await fetch(`${API_URL}/api/photo/detail/` + photoId);
             const data = await res.json();
             setPhoto(data);
         }
@@ -23,11 +24,11 @@ function PhotoDetail({ user }) {
 
     const handleComment = async (e) => {
         e.preventDefault();
-        if(!comment.trim()) {
+        if (!comment.trim()) {
             alert("Comment cannot be empty");
             return;
         }
-        const res = await fetch("http://localhost:8081/api/photo/detail/" + photoId + "/comment", {
+        const res = await fetch(`${API_URL}/api/photo/detail/` + photoId + `/comment`, {
             method: "post",
             headers: {
                 "Accept": "application/json",
@@ -64,7 +65,7 @@ function PhotoDetail({ user }) {
             <hr />
             <br />
             <Box component="form" onSubmit={handleComment}>
-                <TextField 
+                <TextField
                     label="Comment"
                     type="text"
                     value={comment}

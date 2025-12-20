@@ -3,13 +3,14 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function Home() {
+    const API_URL = process.env.REACT_APP_API_URL;
     const navigate = useNavigate();
 
     const [photos, setPhotos] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
-            const res = await fetch("http://localhost:8081/api/photo/list");
+            const res = await fetch(`${API_URL}/api/photo/list`);
             const data = await res.json();
             setPhotos(data);
         };
