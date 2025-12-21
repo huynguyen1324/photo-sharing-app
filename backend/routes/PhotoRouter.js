@@ -29,12 +29,13 @@ router.get("/:userId", async (request, response) => {
 router.post("/upload", upload.single('photo'), async (request, response) => {
     try {
         const newPhoto = new Photo({
-            file_name: request.file.originalname,
+            file_name: request.file.filename,
+            date_time: new Date(),
             user_id: request.body.userId
         });
         
         const savedPhoto = await newPhoto.save();
-        response.json(savedPhoto);
+        response.status(200).json(savedPhoto);
     } catch (error) {
         response.status(500).json({message: error.message});
     }

@@ -1,5 +1,4 @@
-import { AppBar, Button, colors, Input, Toolbar, Typography } from "@mui/material";
-
+import { AppBar, Button, Toolbar, Typography } from "@mui/material";
 import "./styles.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useRef } from "react";
@@ -10,7 +9,7 @@ function TopBar({ user, setUser }) {
   const uploadRef = useRef(null);
 
   const handleClickUpload = () => {
-    uploadRef.current.querySelector('input').click();
+    uploadRef.current.click();
   }
 
   const handleUploadPhoto = async (e) => {
@@ -26,7 +25,7 @@ function TopBar({ user, setUser }) {
 
     try {
       const res = await fetch(`${API_URL}/api/photo/upload`, {
-        method: "post",
+        method: "POST",
         body: formData
       })
       const savedPhoto = await res.json();
@@ -60,14 +59,14 @@ function TopBar({ user, setUser }) {
             <>
               <Typography>Hi, {user.first_name} {user.last_name}!</Typography>
               <Button variant="contained" onClick={handleClickUpload}>UPLOAD PHOTO</Button>
-              <Button variant="contained" onClick={handleLogout}>LOGOUT</Button>
-              <Input
+              <input
                 type="file"
                 accept="image/*"
                 style={{ display: 'none' }}
                 ref={uploadRef}
                 onChange={handleUploadPhoto}
               />
+              <Button variant="contained" onClick={handleLogout}>LOGOUT</Button>
             </>
           ) : (
             <>

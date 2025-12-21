@@ -42,7 +42,7 @@ const App = (props) => {
                       />
                       <Route
                         path="/users/:userId"
-                        element={<UserDetail signedInUser={user} />}
+                        element={<UserDetail />}
                       />
                       <Route
                         path="/photos/:photoId"

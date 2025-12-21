@@ -1,17 +1,15 @@
-import { useState, useEffect, useRef } from "react";
-import { Typography, Button } from "@mui/material";
+import { useState, useEffect } from "react";
+import { Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
-function UserDetail({ signedInUser }) {
+function UserDetail() {
   const API_URL = process.env.REACT_APP_API_URL;
   const { userId } = useParams();
   const navigate = useNavigate();
 
   const [photos, setPhotos] = useState([]);
   const [user, setUser] = useState(null);
-
-  const fileInputRef = useRef(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -24,7 +22,7 @@ function UserDetail({ signedInUser }) {
       setUser(data_user);
     }
     fetchData();
-  }, [userId]);
+  }, [userId, API_URL]);
 
   const handleClickPhoto = (photo) => {
     navigate(`/photos/${photo._id}`);
@@ -52,7 +50,7 @@ function UserDetail({ signedInUser }) {
       <div className="image-grid">
         {photos.map((photo) => (
           <div className="image-box" key={photo._id} onClick={() => handleClickPhoto(photo)}>
-            <img className="image" src={`/images/${photo.file_name}`}/>
+            <img className="image" src={`/images/${photo.file_name}`} alt="" />
           </div>
         ))}
       </div>
