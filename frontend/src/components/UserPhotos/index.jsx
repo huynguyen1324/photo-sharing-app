@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
-function UserDetail() {
+function UserPhotos() {
   const API_URL = process.env.REACT_APP_API_URL;
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -59,4 +59,4 @@ function UserDetail() {
   )
 }
 
-export default UserDetail;
+export default UserPhotos;

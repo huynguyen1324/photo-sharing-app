@@ -53,8 +53,18 @@ router.post("/detail/:photoId/comment", async (request, response) => {
     const date_time = new Date();
     const photo = await Photo.findOne({_id: photoId});
     photo.comments.push({comment, date_time, user});
-    await photo.save();
-    response.json(photo);
+    const savedPhoto = await photo.save();
+    response.json(savedPhoto);
 });
+
+router.delete("/detail/:photoId/comment", async (request, response) => {
+    const { photoId } = request.params;
+    const { comment } = request.body;
+    const photo = await Photo.findOne({_id: photoId});
+    photo.comments.pop(comment);
+    await photo.save();
+
+    return response.status(200).json(photo);
+})
 
 module.exports = router;

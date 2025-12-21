@@ -45,6 +45,30 @@ function PhotoDetail({ user }) {
         }
     }
 
+    const handleModifyComment = () => {
+
+    }
+
+    const handleDeleteComment = async (comment) => {
+        if (window.confirm("Are you sure to delete this comment?")) {
+            const res = await fetch(`${API_URL}/api/photo/detail/` + photoId + `/comment`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({comment})
+            })
+            if (res.status === 200) {
+                alert("Sucessfully deleted comment!");
+                const data = await res.json();
+                setPhoto(data);
+            } else {
+                alert("Error deleting comment.");
+            }
+        }
+    }
+
     return (
         <div>
             <img src={`/images/${photo.file_name}`} className="photo-detail" alt="" />
@@ -60,6 +84,12 @@ function PhotoDetail({ user }) {
                     <Typography variant="caption">
                         {new Date(comment.date_time).toLocaleString()}
                     </Typography>
+                    {comment.user._id === user._id && (
+                        <div className="modify-delete-comment">
+                            <button onClick={() => handleModifyComment}>Modify comment</button>
+                            <button onClick={() => handleDeleteComment(comment)}>Delete comment</button>
+                        </div>
+                    )}
                 </div>
             ))}
             <hr />
