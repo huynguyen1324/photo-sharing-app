@@ -70,8 +70,8 @@ function TopBar({ user, setUser }) {
             </>
           ) : (
             <>
-              <Button variant="contained" href="/login">LOGIN</Button>
-              <Button variant="contained" href="/register">REGISTER</Button>
+              <Button variant="contained" component={Link} to="/login">LOGIN</Button>
+              <Button variant="contained" component={Link} to="/register">REGISTER</Button>
             </>
           )}
         </div>

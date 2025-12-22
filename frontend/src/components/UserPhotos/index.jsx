@@ -50,7 +50,7 @@ function UserPhotos() {
       <div className="image-grid">
         {photos.map((photo) => (
           <div className="image-box" key={photo._id} onClick={() => handleClickPhoto(photo)}>
-            <img className="image" src={`/images/${photo.file_name}`} alt="" />
+            <img className="image" src={`${API_URL}/images/${photo.file_name}`} alt="" />
           </div>
         ))}
       </div>
