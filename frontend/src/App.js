@@ -28,12 +28,12 @@ const App = (props) => {
           </Grid>
             {user ? (
               <>
-                <Grid item sm={2}>
+                <Grid item xs="auto">
                   <Paper className="main-grid-item">
                     <UserList />
                   </Paper>
                 </Grid>
-                <Grid item sm={10}>
+                <Grid item xs>
                   <Paper className="main-grid-item">
                     <Routes>
                       <Route
