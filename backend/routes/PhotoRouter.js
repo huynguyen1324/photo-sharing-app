@@ -1,13 +1,13 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const Photo = require("../db/photoModel");
 const router = express.Router();
-const app = express();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, '../../frontend/public/images'));
+        cb(null, path.join(__dirname, '../public/images'));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -15,46 +15,68 @@ const storage = multer.diskStorage({
 });
 const upload = multer({storage: storage});
 
-router.get("/list", async (request, response) => {
+router.get("/list", async (req, res) => {
     const photos = await Photo.find();
-    response.json(photos);
+    res.json(photos);
 });
 
-router.get("/:userId", async (request, response) => {
-    const { userId } = request.params;
+router.get("/:userId", async (req, res) => {
+    const { userId } = req.params;
     const photos = await Photo.find({user_id: userId});
-    response.json(photos);
+    res.json(photos);
 });
 
-router.post("/upload", upload.single('photo'), async (request, response) => {
+router.post("/upload", upload.single('photo'), async (req, res) => {
     try {
         const newPhoto = new Photo({
-            file_name: request.file.filename,
+            file_name: req.file.filename,
             date_time: new Date(),
-            user_id: request.body.userId
+            user_id: req.body.userId
         });
         
         const savedPhoto = await newPhoto.save();
-        response.status(200).json(savedPhoto);
+
+        return res.status(200).json(savedPhoto);
     } catch (error) {
-        response.status(500).json({message: error.message});
+        return res.status(500).json({message: error.message});
     }
 });
 
-router.get("/detail/:photoId", async (request, response) => {
-    const { photoId } = request.params;
+router.get("/detail/:photoId", async (req, res) => {
+    const { photoId } = req.params;
     const photo = await Photo.findOne({_id: photoId});
-    response.json(photo);
+    res.json(photo);
 });
 
-router.post("/detail/:photoId/comment", async (request, response) => {
-    const { photoId } = request.params;
-    const { comment, user } = request.body;
+router.post("/detail/:photoId/comment", async (req, res) => {
+    const { photoId } = req.params;
+    const { comment, user } = req.body;
     const date_time = new Date();
     const photo = await Photo.findOne({_id: photoId});
     photo.comments.push({comment, date_time, user});
-    await photo.save();
-    response.json(photo);
+    const savedPhoto = await photo.save();
+    res.json(savedPhoto);
 });
+
+router.delete("/detail/:photoId", async (req, res) => {
+    const { photoId } = req.params;
+    const photo = await Photo.findOneAndDelete({_id: photoId});
+    
+    const filePath = path.join(__dirname, '../public/images', photo.file_name);
+    console.log(filePath);
+    if(fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
+    return res.status(200).json({message: "Photo deleted."});
+})
+
+router.delete("/detail/:photoId/comment", async (req, res) => {
+    const { photoId } = req.params;
+    const { comment } = req.body;
+    const photo = await Photo.findOne({_id: photoId});
+    photo.comments.pop(comment);
+    await photo.save();
+
+    return res.status(200).json(photo);
+})
 
 module.exports = router;

@@ -1,10 +1,12 @@
 import "./styles.css";
 import { useEffect, useState } from "react";
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function PhotoDetail({ user }) {
     const API_URL = process.env.REACT_APP_API_URL;
+    const navigate = useNavigate();
+
     const { photoId } = useParams();
     const [photo, setPhoto] = useState(null);
     const [comment, setComment] = useState("");
@@ -45,21 +47,61 @@ function PhotoDetail({ user }) {
         }
     }
 
+    const handleDeletePhoto = async () => {
+        if (window.confirm("Are you sure to delete this photo?")) {
+            const res = await fetch(`${API_URL}/api/photo/detail/${photoId}`, {
+                method: "DELETE",
+            })
+            if(res.ok) {
+
+                navigate(`/users/${user._id}`);
+            } else {
+                alert("Error deleting photo.")
+            }
+        }
+    }
+
+
+    const handleDeleteComment = async (comment) => {
+        if (window.confirm("Are you sure to delete this comment?")) {
+            const res = await fetch(`${API_URL}/api/photo/detail/` + photoId + `/comment`, {
+                method: "DELETE",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ comment })
+            })
+            if (res.status === 200) {
+                const data = await res.json();
+                setPhoto(data);
+            } else {
+                alert("Error deleting comment.");
+            }
+        }
+    }
+
     return (
         <div>
-            <img src={`/images/${photo.file_name}`} className="photo-detail" alt="" />
+            <img src={`${API_URL}/images/${photo.file_name}`} className="photo-detail" alt="" />
             <br />
+            {photo.user_id === user._id && (
+                <Button variant="contained" color="error" onClick={handleDeletePhoto}>DELETE PHOTO</Button>
+            )}
             <hr />
             <Typography variant="h5">COMMENTS</Typography>
             {photo.comments.map((comment) => (
                 <div key={comment._id}>
-                    <Link href={`/users/${comment.user._id}`}>
+                    <Link to={`/users/${comment.user._id}`} style={{ cursor: "pointer" }}>
                         <strong>{comment.user.first_name} {comment.user.last_name}:</strong>
                     </Link>
                     <Typography>{comment.comment}</Typography>
-                    <Typography variant="caption">
+                    <Typography variant="caption" sx={{ flexGrow: 1 }}>
                         {new Date(comment.date_time).toLocaleString()}
                     </Typography>
+                    {comment.user._id === user._id && (
+                        <Button onClick={() => handleDeleteComment(comment)}>Delete comment</Button>
+                    )}
                 </div>
             ))}
             <hr />

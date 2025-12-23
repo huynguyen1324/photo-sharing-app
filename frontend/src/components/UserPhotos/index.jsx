@@ -3,7 +3,7 @@ import { Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
-function UserDetail() {
+function UserPhotos() {
   const API_URL = process.env.REACT_APP_API_URL;
   const { userId } = useParams();
   const navigate = useNavigate();
@@ -50,7 +50,7 @@ function UserDetail() {
       <div className="image-grid">
         {photos.map((photo) => (
           <div className="image-box" key={photo._id} onClick={() => handleClickPhoto(photo)}>
-            <img className="image" src={`/images/${photo.file_name}`} alt="" />
+            <img className="image" src={`${API_URL}/images/${photo.file_name}`} alt="" />
           </div>
         ))}
       </div>
@@ -59,4 +59,4 @@ function UserDetail() {
   )
 }
 
-export default UserDetail;
+export default UserPhotos;

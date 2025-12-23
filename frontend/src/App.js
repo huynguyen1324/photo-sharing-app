@@ -4,7 +4,7 @@ import { Grid, Paper } from "@mui/material";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 
 import TopBar from "./components/TopBar";
-import UserDetail from "./components/UserDetail";
+import UserPhotos from "./components/UserPhotos";
 import UserList from "./components/UserList";
 import PhotoDetail from './components/PhotoDetail';
 import Login from './components/Login';
@@ -42,7 +42,7 @@ const App = (props) => {
                       />
                       <Route
                         path="/users/:userId"
-                        element={<UserDetail />}
+                        element={<UserPhotos />}
                       />
                       <Route
                         path="/photos/:photoId"
