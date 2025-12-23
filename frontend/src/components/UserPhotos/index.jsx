@@ -13,13 +13,13 @@ function UserPhotos() {
 
   useEffect(() => {
     const fetchData = async () => {
-      const res_photos = await fetch(`${API_URL}/api/photo/${userId}`);
-      const data_photos = await res_photos.json();
-      setPhotos(data_photos);
-
       const res_user = await fetch(`${API_URL}/api/user/${userId}`);
       const data_user = await res_user.json();
       setUser(data_user);
+
+      const res_photos = await fetch(`${API_URL}/api/user/${userId}/photos`);
+      const data_photos = await res_photos.json();
+      setPhotos(data_photos);
     }
     fetchData();
   }, [userId, API_URL]);

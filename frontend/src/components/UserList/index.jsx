@@ -14,14 +14,25 @@ function UserList() {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const [users, setUsers] = useState([]);
+  const [countPhotos, setCountPhotos] = useState({});
+  const [countComments, setCountComments] = useState({});
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchUsers = async () => {
       const res = await fetch(`${API_URL}/api/user/list`);
       const data = await res.json();
       setUsers(data);
     };
-    fetchData();
+
+    const fetchStats = async () => {
+      const res= await fetch(`${API_URL}/api/user/stats`);
+      const data = await res.json();
+      setCountPhotos(data.count_photos);
+      setCountComments(data.count_comments);
+    };
+
+    fetchUsers();
+    fetchStats();
   }, []);
 
   return (
@@ -32,7 +43,7 @@ function UserList() {
             <ListItemButton component={Link} to={`/users/${user._id}`}>
               <ListItemText
                 primary={`${user.first_name} ${user.last_name}`}
-                secondary={`${user.photo_count || 0} photos, ${user.comment_count || 0} comments`}
+                secondary={`${countPhotos[user._id] || 0} photos, ${countComments[user._id] || 0} comments`}
               />
             </ListItemButton>
             <Divider />

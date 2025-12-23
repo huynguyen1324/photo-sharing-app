@@ -20,10 +20,10 @@ router.get("/list", async (req, res) => {
     res.json(photos);
 });
 
-router.get("/:userId", async (req, res) => {
-    const { userId } = req.params;
-    const photos = await Photo.find({user_id: userId});
-    res.json(photos);
+router.get("/:id", async (req, res) => {
+    const { id } = req.params;
+    const photo = await Photo.findOne({_id: id});
+    res.json(photo);
 });
 
 router.post("/upload", upload.single('photo'), async (req, res) => {
@@ -42,25 +42,19 @@ router.post("/upload", upload.single('photo'), async (req, res) => {
     }
 });
 
-router.get("/detail/:photoId", async (req, res) => {
-    const { photoId } = req.params;
-    const photo = await Photo.findOne({_id: photoId});
-    res.json(photo);
-});
-
-router.post("/detail/:photoId/comment", async (req, res) => {
-    const { photoId } = req.params;
+router.post("/:id/comment", async (req, res) => {
+    const { id } = req.params;
     const { comment, user } = req.body;
     const date_time = new Date();
-    const photo = await Photo.findOne({_id: photoId});
+    const photo = await Photo.findOne({_id: id});
     photo.comments.push({comment, date_time, user});
     const savedPhoto = await photo.save();
     res.json(savedPhoto);
 });
 
-router.delete("/detail/:photoId", async (req, res) => {
-    const { photoId } = req.params;
-    const photo = await Photo.findOneAndDelete({_id: photoId});
+router.delete("/:id", async (req, res) => {
+    const { id } = req.params;
+    const photo = await Photo.findOneAndDelete({_id: id});
     
     const filePath = path.join(__dirname, '../public/images', photo.file_name);
     console.log(filePath);
@@ -69,10 +63,10 @@ router.delete("/detail/:photoId", async (req, res) => {
     return res.status(200).json({message: "Photo deleted."});
 })
 
-router.delete("/detail/:photoId/comment", async (req, res) => {
-    const { photoId } = req.params;
+router.delete("/:id/comment", async (req, res) => {
+    const { id } = req.params;
     const { comment } = req.body;
-    const photo = await Photo.findOne({_id: photoId});
+    const photo = await Photo.findOne({_id: id});
     photo.comments.pop(comment);
     await photo.save();
 

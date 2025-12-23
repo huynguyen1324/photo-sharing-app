@@ -13,7 +13,7 @@ function PhotoDetail({ user }) {
 
     useEffect(() => {
         const fetchPhoto = async () => {
-            const res = await fetch(`${API_URL}/api/photo/detail/` + photoId);
+            const res = await fetch(`${API_URL}/api/photo/` + photoId);
             const data = await res.json();
             setPhoto(data);
         }
@@ -30,7 +30,7 @@ function PhotoDetail({ user }) {
             alert("Comment cannot be empty");
             return;
         }
-        const res = await fetch(`${API_URL}/api/photo/detail/` + photoId + `/comment`, {
+        const res = await fetch(`${API_URL}/api/photo/` + photoId + `/comment`, {
             method: "post",
             headers: {
                 "Accept": "application/json",
@@ -49,7 +49,7 @@ function PhotoDetail({ user }) {
 
     const handleDeletePhoto = async () => {
         if (window.confirm("Are you sure to delete this photo?")) {
-            const res = await fetch(`${API_URL}/api/photo/detail/${photoId}`, {
+            const res = await fetch(`${API_URL}/api/photo/${photoId}`, {
                 method: "DELETE",
             })
             if(res.ok) {
@@ -64,7 +64,7 @@ function PhotoDetail({ user }) {
 
     const handleDeleteComment = async (comment) => {
         if (window.confirm("Are you sure to delete this comment?")) {
-            const res = await fetch(`${API_URL}/api/photo/detail/` + photoId + `/comment`, {
+            const res = await fetch(`${API_URL}/api/photo/` + photoId + `/comment`, {
                 method: "DELETE",
                 headers: {
                     "Accept": "application/json",
