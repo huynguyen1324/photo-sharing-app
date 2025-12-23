@@ -1,13 +1,13 @@
 const express = require("express");
 const multer = require("multer");
+const fs = require("fs");
 const path = require("path");
 const Photo = require("../db/photoModel");
 const router = express.Router();
-const app = express();
 
 const storage = multer.diskStorage({
     destination: (req, file, cb) => {
-        cb(null, path.join(__dirname, './public/images'));
+        cb(null, path.join(__dirname, '../public/images'));
     },
     filename: (req, file, cb) => {
         cb(null, file.originalname);
@@ -35,6 +35,7 @@ router.post("/upload", upload.single('photo'), async (req, res) => {
         });
         
         const savedPhoto = await newPhoto.save();
+
         return res.status(200).json(savedPhoto);
     } catch (error) {
         return res.status(500).json({message: error.message});
@@ -61,6 +62,10 @@ router.delete("/detail/:photoId", async (req, res) => {
     const { photoId } = req.params;
     const photo = await Photo.findOneAndDelete({_id: photoId});
     
+    const filePath = path.join(__dirname, '../public/images', photo.file_name);
+    console.log(filePath);
+    if(fs.existsSync(filePath)) fs.unlinkSync(filePath);
+
     return res.status(200).json({message: "Photo deleted."});
 })
 

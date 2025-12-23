@@ -46,8 +46,11 @@ function TopBar({ user, setUser }) {
   return (
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
-        <Typography variant="h5" sx={{ flexGrow: 1}}>
-          <Link to="/" style={{ textDecoration: "none", color:"inherit" }}>Photo Sharing App</Link> 
+        <Typography
+          variant="h5"
+          sx={{ flexGrow: 1 }}
+        >
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Photo Sharing App</Link>
         </Typography>
         <div id="right-topbar">
           {user ? (
@@ -61,7 +64,7 @@ function TopBar({ user, setUser }) {
                 ref={uploadRef}
                 onChange={handleUploadPhoto}
               />
-              <Button variant="contained" onClick={handleLogout}>LOGOUT</Button>
+              <Button variant="contained" color="error" onClick={handleLogout}>LOGOUT</Button>
             </>
           ) : (
             <>

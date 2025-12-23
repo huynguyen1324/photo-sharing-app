@@ -1,7 +1,7 @@
 import "./styles.css";
 import { useEffect, useState } from "react";
-import { Box, Button, Link, TextField, Typography } from "@mui/material";
-import { useNavigate, useParams } from "react-router-dom";
+import { Box, Button, TextField, Typography } from "@mui/material";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 function PhotoDetail({ user }) {
     const API_URL = process.env.REACT_APP_API_URL;
@@ -92,7 +92,7 @@ function PhotoDetail({ user }) {
             <Typography variant="h5">COMMENTS</Typography>
             {photo.comments.map((comment) => (
                 <div key={comment._id}>
-                    <Link href={`/users/${comment.user._id}`}>
+                    <Link to={`/users/${comment.user._id}`} style={{ cursor: "pointer" }}>
                         <strong>{comment.user.first_name} {comment.user.last_name}:</strong>
                     </Link>
                     <Typography>{comment.comment}</Typography>
