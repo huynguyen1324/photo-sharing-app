@@ -8,22 +8,22 @@ router.get("/list", async (req, res) => {
   res.json(users);
 });
 
-router.get("/stats", async(req, res) => {
-    const photos = await Photo.find();
+router.get("/stats", async (req, res) => {
+  const photos = await Photo.find();
 
-    const count_photos = {};
-    const count_comments = {};
+  const count_photos = {};
+  const count_comments = {};
 
-    for(const photo of photos) {
-        const userId = photo.user_id.toString();
-        count_photos[userId] = (count_photos[userId] || 0) + 1;
-        for (const comment of photo.comments) {
-            const userComment = comment.user._id.toString();
-            count_comments[userComment] = (count_comments[userComment] || 0) + 1;
-        }
+  for (const photo of photos) {
+    const userId = photo.user_id.toString();
+    count_photos[userId] = (count_photos[userId] || 0) + 1;
+    for (const comment of photo.comments) {
+      const userComment = comment.user._id.toString();
+      count_comments[userComment] = (count_comments[userComment] || 0) + 1;
     }
+  }
 
-    return res.json({count_photos, count_comments});
+  return res.json({ count_photos, count_comments });
 })
 
 router.get("/:id", async (req, res) => {
@@ -33,10 +33,27 @@ router.get("/:id", async (req, res) => {
 });
 
 router.get("/:id/photos", async (req, res) => {
-    const { id } = req.params;
-    const photos = await Photo.find({user_id: id});
-    res.json(photos);
+  const { id } = req.params;
+  const photos = await Photo.find({ user_id: id });
+  res.json(photos);
 });
+
+router.get("/:id/comments", async (req, res) => {
+  const { id } = req.params;
+  const photos = await Photo.find({ user_id: id });
+  const photosHavingUserComment = [];
+
+  for (const photo of photos) {
+    for (const comment of photo.comments) {
+      if(comment.user._id === id) {
+        photosHavingUserComment.push(photo);
+        break;
+      }
+    }
+  }
+
+  return res.status(200).json(photosHavingUserComment);
+})
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;

@@ -4,7 +4,6 @@ import {
   List,
   ListItemButton,
   ListItemText,
-  Typography,
 } from "@mui/material";
 
 import "./styles.css";
@@ -33,7 +32,7 @@ function UserList() {
 
     fetchUsers();
     fetchStats();
-  }, []);
+  }, [API_URL]);
 
   return (
     <div>
