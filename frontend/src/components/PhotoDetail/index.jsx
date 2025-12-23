@@ -86,7 +86,7 @@ function PhotoDetail({ user }) {
             <img src={`${API_URL}/images/${photo.file_name}`} className="photo-detail" alt="" />
             <br />
             {photo.user_id === user._id && (
-                <Button variant="contained" onClick={handleDeletePhoto}>DELETE PHOTO</Button>
+                <Button variant="contained" color="error" onClick={handleDeletePhoto}>DELETE PHOTO</Button>
             )}
             <hr />
             <Typography variant="h5">COMMENTS</Typography>
