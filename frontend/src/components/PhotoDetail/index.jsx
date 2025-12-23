@@ -18,7 +18,7 @@ function PhotoDetail({ user }) {
             setPhoto(data);
         }
         fetchPhoto();
-    }, [photoId]);
+    }, [photoId, API_URL]);
 
     if (!photo) {
         return <Typography>Loading...</Typography>;

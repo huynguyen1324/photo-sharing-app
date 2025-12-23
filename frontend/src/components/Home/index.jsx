@@ -15,7 +15,7 @@ function Home() {
             setPhotos(data);
         };
         fetchData();
-    }, []);
+    }, [API_URL]);
 
     const handleClickPhoto = (photo) => {
         navigate(`/photos/${photo._id}`);
