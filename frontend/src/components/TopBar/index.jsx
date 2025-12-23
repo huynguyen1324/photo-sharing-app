@@ -46,13 +46,8 @@ function TopBar({ user, setUser }) {
   return (
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
-        <Typography
-          variant="h5"
-          component={Link} to="/"
-          color="inherit"
-          sx={{ flexGrow: 1, textDecoration: "none" }}
-        >
-          Photo Sharing App
+        <Typography variant="h5" sx={{ flexGrow: 1}}>
+          <Link to="/" style={{ textDecoration: "none", color:"inherit" }}>Photo Sharing App</Link> 
         </Typography>
         <div id="right-topbar">
           {user ? (
