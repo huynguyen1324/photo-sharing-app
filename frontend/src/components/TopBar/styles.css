@@ -2,3 +2,8 @@
   height: 60;
   justify-content: "center";
 }
+
+#right-topbar * {
+  display: inline;
+  margin: 10px
+}

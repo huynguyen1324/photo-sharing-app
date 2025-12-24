@@ -1,27 +1,30 @@
 import { useState, useEffect } from "react";
-import { Typography, Button } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import { Button, Typography } from "@mui/material";
+import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
 function UserDetail() {
-  const {userId} = useParams();
+  const API_URL = process.env.REACT_APP_API_URL;
+  const { userId } = useParams();
+  const navigate = useNavigate();
+
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const res = await fetch(`http://localhost:8081/api/user/${userId}`);
+      const res = await fetch(`${API_URL}/api/user/${userId}`);
       const data = await res.json();
       setUser(data);
-    };
+    }
     fetchData();
-  }, [userId]);
+  }, [userId, API_URL]);
 
   if (!user) {
     return <Typography>Loading...</Typography>;
   }
 
   return (
-    <div className="user-detail">
+    <div>
       <Typography variant="h5">
         <strong>Name: </strong> {user.first_name} {user.last_name}
       </Typography>
@@ -34,11 +37,30 @@ function UserDetail() {
       <Typography>
         <strong>Description: </strong> {user.description}
       </Typography>
-      <Button href={`/photos/${userId}`} variant="contained">
-        View Photos
+      <br />
+      <Button
+        variant="contained"
+        onClick={() => navigate(`/users/${user._id}/photos`)}
+        sx={{ marginRight: "10px", marginBottom: "10px" }}
+      >
+        View all photos
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => navigate(`/users/${user._id}/comments`)}
+        sx={{ marginRight: "10px", marginBottom: "10px" }}
+      >
+        View all comments
+      </Button>
+      <Button
+        variant="contained"
+        onClick={() => navigate(`/users/${user._id}/blogs`)}
+        sx={{ marginRight: "10px", marginBottom: "10px" }}
+      >
+        View all blogs
       </Button>
     </div>
-  )
+  );
 }
 
 export default UserDetail;

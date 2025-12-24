@@ -31,6 +31,8 @@ async function dbLoad() {
       location: user.location,
       description: user.description,
       occupation: user.occupation,
+      username: user.username,
+      password: user.password,
     });
     try {
       await userObj.save();
