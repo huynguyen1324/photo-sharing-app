@@ -35,25 +35,13 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/photos", async (req, res) => {
   const { id } = req.params;
   const photos = await Photo.find({ user_id: id });
-  res.json(photos);
-});
 
-router.get("/:id/comments", async (req, res) => {
-  const { id } = req.params;
-  const photos = await Photo.find({ user_id: id });
-  const photosHavingUserComment = [];
-
+  comments = [];
   for (const photo of photos) {
-    for (const comment of photo.comments) {
-      if(comment.user._id === id) {
-        photosHavingUserComment.push(photo);
-        break;
-      }
-    }
+    comments.push(...photo.comments);
   }
-
-  return res.status(200).json(photosHavingUserComment);
-})
+  res.json(comments);
+});
 
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
@@ -69,6 +57,12 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
+    const username = req.body.username;
+    const userExists = await User.findOne({ username });
+    if (userExists) {
+      return res.status(409).json({ message: "User already exists" });
+    }
+
     const user = new User(req.body);
     await user.save();
     res.status(200).json({ message: "Register successfully" });

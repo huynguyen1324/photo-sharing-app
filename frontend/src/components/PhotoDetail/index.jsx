@@ -84,9 +84,8 @@ function PhotoDetail({ user }) {
     return (
         <div>
             <img src={`${API_URL}/images/${photo.file_name}`} className="photo-detail" alt="" />
-            <br />
             {photo.user_id === user._id && (
-                <Button variant="contained" color="error" onClick={handleDeletePhoto}>DELETE PHOTO</Button>
+                <Button variant="contained" color="error" onClick={handleDeletePhoto} sx={{marginBlock: "10px"}}>DELETE PHOTO</Button>
             )}
             <hr />
             <Typography variant="h5">COMMENTS</Typography>
@@ -96,16 +95,15 @@ function PhotoDetail({ user }) {
                         <strong>{comment.user.first_name} {comment.user.last_name}:</strong>
                     </Link>
                     <Typography>{comment.comment}</Typography>
-                    <Typography variant="caption" sx={{ flexGrow: 1 }}>
+                    <Typography variant="caption" sx={{ marginRight: "10px" }}>
                         {new Date(comment.date_time).toLocaleString()}
                     </Typography>
                     {comment.user._id === user._id && (
-                        <Button onClick={() => handleDeleteComment(comment)}>Delete comment</Button>
+                        <Button color="error" onClick={() => handleDeleteComment(comment)}>Delete comment</Button>
                     )}
                 </div>
             ))}
             <hr />
-            <br />
             <Box component="form" onSubmit={handleComment}>
                 <TextField
                     label="Comment"
@@ -113,9 +111,8 @@ function PhotoDetail({ user }) {
                     value={comment}
                     onChange={(e) => setComment(e.target.value)}
                     fullWidth
+                    sx={{ marginBlock: "10px" }}
                 />
-                <br />
-                <br />
                 <Button variant="contained" type="submit">Add comment</Button>
             </Box>
         </div>

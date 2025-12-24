@@ -4,9 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 function Home() {
     const API_URL = process.env.REACT_APP_API_URL;
-    const navigate = useNavigate();
-
     const [photos, setPhotos] = useState([]);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchData = async () => {
