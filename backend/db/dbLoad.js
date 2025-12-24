@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 
 const models = require("../modelData/models.js");
+const User = require("./userModel.js");
+const Photo = require("./photoModel.js");
+const SchemaInfo = require("./schemaInfo.js");
 
-const User = require("../db/userModel.js");
-const Photo = require("../db/photoModel.js");
-const SchemaInfo = require("../db/schemaInfo.js");
 
 const versionString = "1.0";
 
@@ -14,91 +14,88 @@ async function dbLoad() {
     await mongoose.connect(process.env.DB_URL);
     console.log("Successfully connected to MongoDB Atlas!");
   } catch (error) {
-    console.log("Unable connecting to MongoDB Atlas!");
-  }
-
-  await User.deleteMany({});
-  await Photo.deleteMany({});
-  await SchemaInfo.deleteMany({});
-
-  const userModels = models.userListModel();
-  const mapFakeId2RealId = {};
-  for (const user of userModels) {
-    userObj = new User({
-      _id: user._id,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      location: user.location,
-      description: user.description,
-      occupation: user.occupation,
-      username: user.username,
-      password: user.password,
-    });
-    try {
-      await userObj.save();
-      mapFakeId2RealId[user._id] = userObj._id;
-      user.objectID = userObj._id;
-      console.log(
-        "Adding user:",
-        user.first_name + " " + user.last_name,
-        " with ID ",
-        user.objectID,
-      );
-    } catch (error) {
-      console.error("Error create user", error);
-    }
-  }
-  const photoModels = [];
-  const userIDs = Object.keys(mapFakeId2RealId);
-  userIDs.forEach(function (id) {
-    photoModels.push(...models.photoOfUserModel(id));
-  });
-  for (const photo of photoModels) {
-    photoObj = await Photo.create({
-      file_name: photo.file_name,
-      date_time: photo.date_time,
-      user_id: mapFakeId2RealId[photo.user_id],
-    });
-    photo.objectID = photoObj._id;
-    if (photo.comments) {
-      photo.comments.forEach(function (comment) {
-        photoObj.comments = photoObj.comments.concat([
-          {
-            comment: comment.comment,
-            date_time: comment.date_time,
-            user: comment.user,
-          },
-        ]);
-        console.log(
-          "Adding comment of length %d by user %s to photo %s",
-          comment.comment.length,
-          comment.user.objectID,
-          photo.file_name,
-        );
-      });
-    }
-    try {
-      await photoObj.save();
-      console.log(
-        "Adding photo:",
-        photo.file_name,
-        " of user ID ",
-        photoObj.user_id,
-      );
-    } catch (error) {
-      console.error("Error create photo", error);
-    }
+    console.log("Unable connecting to MongoDB Atlas!", error);
+    process.exit(1);
   }
 
   try {
-    schemaInfo = await SchemaInfo.create({
+    await User.deleteMany({});
+    await Photo.deleteMany({});
+    await SchemaInfo.deleteMany({});
+    console.log("Cleared old data.");
+  } catch (err) {
+    console.error("Error clearing old data:", err);
+  }
+
+  const users = models.users;
+  const photos = models.photos;
+  const comments = models.comments;
+
+  // Bước 1: Tạo tất cả users
+  for (const user of users) {
+    try {
+      const userObj = await User.create({
+        _id: user._id,
+        username: user.username,
+        password: user.password,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        location: user.location,
+        description: user.description,
+        occupation: user.occupation,
+        role: user.role,
+        friends: user.friends,
+      });
+
+      console.log(`Added user: ${user.first_name} ${user.last_name}`);
+    } catch (error) {
+      console.error("Error creating user:", error);
+    }
+  }
+
+  // Bước 2: Gom nhóm các comments theo photoId
+
+  const commentsByPhotoId = new Map();
+  for (const comment of comments) {
+    if (!commentsByPhotoId.has(comment.photo_id)) {
+      commentsByPhotoId.set(comment.photo_id, []);
+    }
+    commentsByPhotoId.get(comment.photo_id).push(comment);
+  }
+
+  // Bước 3: Tạo tất cả photos
+  for (const photo of photos) {
+    try {
+      const photoComments = commentsByPhotoId.get(photo._id) || [];
+
+      const photoObj = await Photo.create({
+        _id: photo._id,
+        file_name: photo.file_name,
+        date_time: photo.date_time,
+        user_id: photo.user_id,
+        comments: photoComments,
+      });
+
+      console.log(
+        `Added photo: ${photo.file_name} with ${photoComments.length} comments`
+      );
+    } catch (error) {
+      console.error("Error creating photo:", error);
+    }
+  }
+
+  // Bước 4: Tạo SchemaInfo
+  try {
+    const schemaInfo = await SchemaInfo.create({
       version: versionString,
     });
-    console.log("SchemaInfo object created with version ", schemaInfo.version);
+    console.log("SchemaInfo object created with version", schemaInfo.version);
   } catch (error) {
-    console.error("Error create schemaInfo", reportError);
+    console.error("Error creating schemaInfo:", error);
   }
+
   mongoose.disconnect();
+  console.log("Connection closed.");
 }
 
 dbLoad();

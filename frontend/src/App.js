@@ -18,6 +18,7 @@ import Home from "./components/Home";
 import UserComments from "./components/UserComments";
 import UserDetail from "./components/UserDetail";
 import UserPhotos from "./components/UserPhotos";
+import Profile from "./components/Profile";
 
 const App = (props) => {
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
@@ -50,10 +51,13 @@ const App = (props) => {
                       path="/users/:userId/comments"
                       element={<UserComments />}
                     />
-
                     <Route
                       path="/photos/:photoId"
                       element={<PhotoDetail user={user} />}
+                    />
+                    <Route 
+                      path="/profile"
+                      element={<Profile user={user} setUser={setUser} />}
                     />
                   </Routes>
                 </Paper>

@@ -30,6 +30,7 @@ function TopBar({ user, setUser }) {
       })
       const savedPhoto = await res.json();
       navigate(`/photos/${savedPhoto._id}`);
+      window.location.reload();
     } catch (error) {
       console.error("Error uploading photo: " + error);
     }
@@ -51,7 +52,7 @@ function TopBar({ user, setUser }) {
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>B22DCAT144</Link>
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Photo Sharing</Link>
         </Typography>
         <div id="right-topbar">
           {user ? (
