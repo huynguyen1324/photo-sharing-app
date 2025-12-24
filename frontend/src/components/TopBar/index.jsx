@@ -35,6 +35,10 @@ function TopBar({ user, setUser }) {
     }
   }
 
+  const handleViewProfile = () => {
+    navigate('/profile');
+  }
+
   const handleLogout = () => {
     if (window.confirm("Are you sure you want to logout?")) {
       localStorage.removeItem('user');
@@ -47,7 +51,7 @@ function TopBar({ user, setUser }) {
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Photo Sharing App</Link>
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>B22DCAT144</Link>
         </Typography>
         <div id="right-topbar">
           {user ? (
@@ -61,6 +65,7 @@ function TopBar({ user, setUser }) {
                 ref={uploadRef}
                 onChange={handleUploadPhoto}
               />
+              <Button variant="contained" color="info" onClick={handleViewProfile}>PROFILE</Button>
               <Button variant="contained" color="error" onClick={handleLogout}>LOGOUT</Button>
             </>
           ) : (

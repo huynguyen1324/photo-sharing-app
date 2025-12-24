@@ -35,12 +35,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/photos", async (req, res) => {
   const { id } = req.params;
   const photos = await Photo.find({ user_id: id });
-
-  comments = [];
-  for (const photo of photos) {
-    comments.push(...photo.comments);
-  }
-  res.json(comments);
+  res.json(photos);
 });
 
 router.post("/login", async (req, res) => {

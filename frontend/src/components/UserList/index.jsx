@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   Divider,
+  Input,
   List,
   ListItemButton,
   ListItemText,
@@ -13,6 +14,8 @@ function UserList() {
   const API_URL = process.env.REACT_APP_API_URL;
 
   const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
+  const [keyword, setKeyword] = useState("");
   const [countPhotos, setCountPhotos] = useState({});
   const [countComments, setCountComments] = useState({});
 
@@ -21,10 +24,11 @@ function UserList() {
       const res = await fetch(`${API_URL}/api/user/list`);
       const data = await res.json();
       setUsers(data);
+      setFilteredUsers(data);
     };
 
     const fetchStats = async () => {
-      const res= await fetch(`${API_URL}/api/user/stats`);
+      const res = await fetch(`${API_URL}/api/user/stats`);
       const data = await res.json();
       setCountPhotos(data.count_photos);
       setCountComments(data.count_comments);
@@ -34,10 +38,27 @@ function UserList() {
     fetchStats();
   }, [API_URL]);
 
+  useEffect(() => {
+    let arr = [];
+    for (const user of users) {
+      const fullName = `${user.first_name} ${user.last_name}`.toLowerCase();
+      if (fullName.includes(keyword.toLowerCase())) {
+        arr.push(user);
+      }
+    }
+    setFilteredUsers(arr);
+  }, [keyword, users]);
+
   return (
     <div>
+      <Input
+        type="text"
+        placeholder="Search users"
+        value={keyword}
+        onChange={(e) => setKeyword(e.target.value)}
+      />
       <List component="nav">
-        {users.map((user) => (
+        {filteredUsers.map((user) => (
           <div key={user._id}>
             <ListItemButton component={Link} to={`/users/${user._id}`}>
               <ListItemText
