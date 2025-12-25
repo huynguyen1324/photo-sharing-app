@@ -42,7 +42,10 @@ const App = (props) => {
                 <Paper className="main-grid-item">
                   <Routes>
                     <Route path="/" element={<Home />} />
-                    <Route path="/users/:userId" element={<UserDetail />} />
+                    <Route 
+                      path="/users/:userId" 
+                      element={<UserDetail loggedInUser={user} />} 
+                    />
                     <Route
                       path="/users/:userId/photos"
                       element={<UserPhotos />}

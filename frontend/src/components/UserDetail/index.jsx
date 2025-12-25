@@ -3,13 +3,12 @@ import { Button, Typography } from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import "./styles.css";
 
-function UserDetail() {
+function UserDetail({ loggedInUser }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const { userId } = useParams();
   const navigate = useNavigate();
 
   const [user, setUser] = useState(null);
-  const loggedInUser = JSON.parse(localStorage.getItem("user"));
   const [friendState, setFriendState] = useState(null);
 
   useEffect(() => {

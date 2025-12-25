@@ -11,20 +11,16 @@ const versionString = "1.0";
 
 async function dbLoad() {
   try {
-    await mongoose.connect("mongodb+srv://huy0132004:huy153684@apps-cluster.coomzeq.mongodb.net");
+    await mongoose.connect(process.env.DB_URL);
     console.log("Successfully connected to MongoDB Atlas!");
-  } catch (error) {
-    console.log("Unable connecting to MongoDB Atlas!", error);
-    process.exit(1);
-  }
 
-  try {
-    await User.deleteMany({});
-    await Photo.deleteMany({});
-    await SchemaInfo.deleteMany({});
-    console.log("Cleared old data.");
-  } catch (err) {
-    console.error("Error clearing old data:", err);
+    // Xoá toàn bộ Database hiện tại
+    await mongoose.connection.dropDatabase();
+    console.log("Database deleted successfully.");
+
+  } catch (error) {
+    console.log("Error:", error);
+    process.exit(1);
   }
 
   const users = models.users;

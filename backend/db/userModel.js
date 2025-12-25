@@ -8,6 +8,7 @@ const userSchema = new mongoose.Schema({
   occupation: { type: String },
   username: { type: String },
   password: { type: String },
+  role: { type: String },
   friends: [
     { type: mongoose.Schema.Types.ObjectId, ref: "Users" }
   ],
