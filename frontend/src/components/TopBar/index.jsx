@@ -30,9 +30,14 @@ function TopBar({ user, setUser }) {
       })
       const savedPhoto = await res.json();
       navigate(`/photos/${savedPhoto._id}`);
+      window.location.reload();
     } catch (error) {
       console.error("Error uploading photo: " + error);
     }
+  }
+
+  const handleViewProfile = () => {
+    navigate('/profile');
   }
 
   const handleLogout = () => {
@@ -47,7 +52,7 @@ function TopBar({ user, setUser }) {
     <AppBar className="topbar-appBar" position="absolute">
       <Toolbar>
         <Typography variant="h5" sx={{ flexGrow: 1 }}>
-          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Photo Sharing App</Link>
+          <Link to="/" style={{ color: "inherit", textDecoration: "none" }}>Photo Sharing</Link>
         </Typography>
         <div id="right-topbar">
           {user ? (
@@ -61,6 +66,7 @@ function TopBar({ user, setUser }) {
                 ref={uploadRef}
                 onChange={handleUploadPhoto}
               />
+              <Button variant="contained" color="info" onClick={handleViewProfile}>PROFILE</Button>
               <Button variant="contained" color="error" onClick={handleLogout}>LOGOUT</Button>
             </>
           ) : (

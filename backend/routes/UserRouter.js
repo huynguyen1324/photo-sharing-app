@@ -17,9 +17,10 @@ router.get("/stats", async (req, res) => {
   for (const photo of photos) {
     const userId = photo.user_id.toString();
     count_photos[userId] = (count_photos[userId] || 0) + 1;
+
     for (const comment of photo.comments) {
-      const userComment = comment.user._id.toString();
-      count_comments[userComment] = (count_comments[userComment] || 0) + 1;
+      const userIdComment = comment.user._id.toString();
+      count_comments[userIdComment] = (count_comments[userIdComment] || 0) + 1;
     }
   }
 
@@ -35,12 +36,7 @@ router.get("/:id", async (req, res) => {
 router.get("/:id/photos", async (req, res) => {
   const { id } = req.params;
   const photos = await Photo.find({ user_id: id });
-
-  comments = [];
-  for (const photo of photos) {
-    comments.push(...photo.comments);
-  }
-  res.json(comments);
+  res.json(photos);
 });
 
 router.post("/login", async (req, res) => {
@@ -71,5 +67,28 @@ router.post("/register", async (req, res) => {
   }
 });
 
+router.post("/:id/follow", async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+  const user = await User.findOne({ _id: id });
+  user.friends.push(userId);
+  await user.save();
+  return res.status(200).json(user);
+});
+
+router.post("/:id/unfollow", async (req, res) => {
+  const { id } = req.params;
+  const { userId } = req.body;
+  const user = await User.findOne({ _id: id });
+  user.friends = user.friends.pop(userId);
+  await user.save();
+  return res.status(200).json(user);
+});
+
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const user = await User.findOneAndUpdate({ _id: id}, req.body, { new: true });
+  return res.status(200).json(user);
+});
 
 module.exports = router;

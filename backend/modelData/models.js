@@ -1,48 +1,3 @@
-/**
- * Model data for Project 5 - the photo sharing site.
- * This module returns an object called models with the following
- * functions:
- *
- * models.userListModel() - A function that returns the list of users on
- * the system. The list is returned as an array of objects containing:
- *   _id (string)         - The ID of the user.
- *   first_name (string)  - The first name of the user.
- *   last_name (string)   - The last name of the user.
- *   location (string)    - The location of the user.
- *   description (string) - A brief user description.
- *   occupation (string)  - The occupation of the user.
- *
- * models.userModel() - A function that returns the info of the specified
- * user. Called with an user ID (id), the function returns n object containing:
- *   _id (string)         - The ID of the user.
- *   first_name (string)  - The first name of the user.
- *   last_name (string)   - The last name of the user.
- *   location (string)    - The location of the user.
- *   description (string) - A brief user description.
- *   occupation (string)  - The occupation of the user.
- *
- * models.photoOfUserModel() - A function that returns the photos belong to
- * the specified user. Called with an user ID (id), the function returns an
- * object containing:
- *   _id (string)         - The ID of the photo
- *   date_time (date)     - The date and time the picture was taken in ISO
- *                          format.
- *   file_name (string)   - The file name in the image directory of the picture.
- *   user_id (string)     - The user id of the picture's owner.
- *   comments ([objects]) - An array of Comments with the properties:
- *       _id (string)       - The ID of the comment.
- *       date_time (date)   - The date the comment was made in ISO format.
- *       comment (string)   - The text of the comment.
- *       user: (object)     - The user who made the comment.
- *       photo_id: (string) - The ID of the photo the comment belongs to.
- *
- * models.schemaModel() - A function that returns the test info from the
- * fake schema. The function returns an object containing:
- *   _id (string)           - The ID of the schema.
- *   __v (number)           - The version number.
- *   load_date_time (date)  - The date the schema was made in ISO format.
- */
-
 const schemaInfo = {
   load_date_time: "Fri Apr 29 2016 01:45:15 GMT-0700 (PDT)",
   __v: 0,
@@ -53,26 +8,32 @@ const schemaInfo = {
 
 const im = {
   _id: "57231f1a30e4351f4e9f4bd7",
+  username: "ian",
+  password: "123",
   first_name: "Ian",
   last_name: "Malcolm",
   location: "Austin, TX",
   description: "Should've stayed in the car.",
   occupation: "Mathematician",
-  username: "ian",
-  password: "123",
+  role: "admin",
+  friends: [],
 };
 const er = {
   _id: "57231f1a30e4351f4e9f4bd8",
+  username: "ellen",
+  password: "123",
   first_name: "Ellen",
   last_name: "Ripley",
   location: "Nostromo",
   description: "Lvl 6 rating. Pilot.",
   occupation: "Warrant Officer",
-  username: "ellen",
-  password: "123",
+  role: "user",
+  friends: [],
 };
 const pt = {
   _id: "57231f1a30e4351f4e9f4bd9",
+  username: "peregrin",
+  password: "123",
   first_name: "Peregrin",
   last_name: "Took",
   location: "Gondor",
@@ -82,38 +43,44 @@ const pt = {
     "until the stars are all alight... Mist and shadow, cloud and shade, " +
     "all shall fade... all... shall... fade... ",
   occupation: "Thain",
-  username: "peregrin",
-  password: "123",
+  role: "user",
+  friends: [],
 };
 const rk = {
   _id: "57231f1a30e4351f4e9f4bda",
+  username: "rey",
+  password: "123",
   first_name: "Rey",
   last_name: "Kenobi",
   location: "D'Qar",
   description: "Excited to be here!",
   occupation: "Rebel",
-  username: "rey",
-  password: "123",
+  role: "user",
+  friends: [],
 };
 const al = {
   _id: "57231f1a30e4351f4e9f4bdb",
+  username: "april",
+  password: "123",
   first_name: "April",
   last_name: "Ludgate",
   location: "Pawnee, IN",
   description: "Witch",
   occupation: "Animal Control",
-  username: "april",
-  password: "123",
+  role: "user",
+  friends: [],
 };
 const jo = {
   _id: "57231f1a30e4351f4e9f4bdc",
+  username: "john",
+  password: "123",
   first_name: "John",
   last_name: "Ousterhout",
   location: "Stanford, CA",
   description: "<i>CS142!</i>",
   occupation: "Professor",
-  username: "john",
-  password: "123",
+  role: "user",
+  friends: [],
 };
 
 const users = [im, er, pt, rk, al, jo];
@@ -350,45 +317,11 @@ const comments = [
   comment13,
 ];
 
-comments.forEach(function (comment) {
-  const photo = photos.filter(function (photo) {
-    return photo._id === comment.photo_id;
-  })[0]; // Only one match. Return the content of the match inside the array
-
-  if (!photo.comments) {
-    photo.comments = [];
-  }
-  photo.comments.push(comment);
-});
-
-const userListModel = function () {
-  return users;
-};
-
-const userModel = function (userId) {
-  for (let i = 0; i < users.length; i++) {
-    if (users[i]._id === userId) {
-      return users[i];
-    }
-  }
-  return null;
-};
-
-const photoOfUserModel = function (userId) {
-  return photos.filter(function (photo) {
-    return photo.user_id === userId;
-  });
-};
-
-const schemaModel = function () {
-  return schemaInfo;
-};
-
 const models = {
-  userListModel: userListModel,
-  userModel: userModel,
-  photoOfUserModel: photoOfUserModel,
-  schemaInfo: schemaModel,
+  users: users,
+  photos: photos,
+  comments: comments,
+  schemaInfo: schemaInfo,
 };
 
 module.exports = models;

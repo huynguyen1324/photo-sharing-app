@@ -8,6 +8,9 @@ const userSchema = new mongoose.Schema({
   occupation: { type: String },
   username: { type: String },
   password: { type: String },
+  friends: [
+    { type: mongoose.Schema.Types.ObjectId, ref: "Users" }
+  ],
 });
 
 const User = mongoose.model.Users || mongoose.model("Users", userSchema);

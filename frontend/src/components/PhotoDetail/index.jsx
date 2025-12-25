@@ -53,8 +53,8 @@ function PhotoDetail({ user }) {
                 method: "DELETE",
             })
             if(res.ok) {
-
                 navigate(`/users/${user._id}`);
+                window.location.reload();
             } else {
                 alert("Error deleting photo.")
             }
