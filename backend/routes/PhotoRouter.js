@@ -42,6 +42,20 @@ router.post("/upload", upload.single('photo'), async (req, res) => {
     }
 });
 
+router.post("/:id/like", async (req, res) => {
+    const { id } = req.params;
+    const { userId } = req.body;
+    const photo = await Photo.findOne({_id: id});
+    const existingLikeIndex = photo.likes.findIndex(like => like.user_id.toString() === userId);
+    if (existingLikeIndex === -1) {
+        photo.likes.push({ user_id: userId });
+    } else {
+        photo.likes.splice(existingLikeIndex, 1);
+    } 
+    const savedPhoto = await photo.save();
+    res.json(savedPhoto);
+});
+
 router.post("/:id/comment", async (req, res) => {
     const { id } = req.params;
     const { comment, user } = req.body;

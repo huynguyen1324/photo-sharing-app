@@ -10,7 +10,6 @@ import {
 
 import TopBar from "./components/TopBar";
 import UserList from "./components/UserList";
-import PhotoDetail from "./components/PhotoDetail";
 import Login from "./components/Login";
 import { useState } from "react";
 import Register from "./components/Register";
@@ -41,22 +40,18 @@ const App = (props) => {
               <Grid item xs>
                 <Paper className="main-grid-item">
                   <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<Home user={user} />} />
                     <Route 
                       path="/users/:userId" 
                       element={<UserDetail loggedInUser={user} />} 
                     />
                     <Route
                       path="/users/:userId/photos"
-                      element={<UserPhotos />}
+                      element={<UserPhotos loggedInUser={user} />}
                     />
                     <Route
                       path="/users/:userId/comments"
                       element={<UserComments />}
-                    />
-                    <Route
-                      path="/photos/:photoId"
-                      element={<PhotoDetail user={user} />}
                     />
                     <Route 
                       path="/profile"
