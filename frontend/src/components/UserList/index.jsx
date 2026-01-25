@@ -51,19 +51,19 @@ function UserList() {
 
   return (
     <div>
-      {/* <Input
+      <Input
         type="text"
         placeholder="Search users"
         value={keyword}
         onChange={(e) => setKeyword(e.target.value)}
-      /> */}
+      />
       <List component="nav">
         {filteredUsers.map((user) => (
           <div key={user._id}>
             <ListItemButton component={Link} to={`/users/${user._id}`}>
               <ListItemText
                 primary={`${user.first_name} ${user.last_name}`}
-                // secondary={`${countPhotos[user._id] || 0} photos, ${countComments[user._id] || 0} comments`}
+                secondary={`${countPhotos[user._id] || 0} photos, ${countComments[user._id] || 0} comments`}
               />
             </ListItemButton>
             <Divider />

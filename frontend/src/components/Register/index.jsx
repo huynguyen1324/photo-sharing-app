@@ -17,10 +17,10 @@ function Register() {
 
   const handleRegister = async (e) => {
     e.preventDefault();
+
     const res = await fetch(`${API_URL}/api/user/register`, {
-      method: "post",
+      method: "POST",
       headers: {
-        Accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -33,15 +33,25 @@ function Register() {
         occupation,
       }),
     });
+
+    const data = await res.json(); // 👈 QUAN TRỌNG
+
     if (res.status === 200) {
       alert("Register successfully!");
       navigate("/login");
-    } else if (res.status === 409) {
-      alert("User already exists");
-    } else {
+    }
+    else if (res.status === 409) {
+      alert(data.message); // Username already exists
+    }
+    else if (res.status === 400) {
+      // lỗi validate
+      alert(Object.values(data).join("\n"));
+    }
+    else {
       alert("Register failed");
     }
   };
+
 
   return (
     <Box id="register-box" component="form" onSubmit={handleRegister}>

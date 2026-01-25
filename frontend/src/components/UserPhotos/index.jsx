@@ -1,6 +1,6 @@
 import { Box, Button, Paper, TextField, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import ThumbUpIcon from '@mui/icons-material/ThumbUp';
 import ThumbUpOutlinedIcon from '@mui/icons-material/ThumbUpOutlined';
 import "./styles.css";
@@ -8,7 +8,6 @@ import "./styles.css";
 function UserPhotos({ loggedInUser }) {
   const API_URL = process.env.REACT_APP_API_URL;
   const { userId } = useParams();
-  const navigate = useNavigate();
 
   const [photos, setPhotos] = useState([]);
   const [user, setUser] = useState(null);
@@ -33,7 +32,7 @@ function UserPhotos({ loggedInUser }) {
       ? photo.likes.filter(like => like.user_id !== loggedInUser._id)
       : [...(photo.likes || []), { user_id: loggedInUser._id }];
 
-    setPhotos(photos.map(p => 
+    setPhotos(photos.map(p =>
       p._id === photo._id ? { ...p, likes: newLikes } : p
     ));
 
@@ -45,12 +44,12 @@ function UserPhotos({ loggedInUser }) {
       },
       body: JSON.stringify({ userId: user._id })
     });
-    
+
     if (res.status === 200) {
       const updatedPhoto = await res.json();
       setPhotos(photos.map(p => p._id === updatedPhoto._id ? updatedPhoto : p));
     } else {
-      setPhotos(photos.map(p => 
+      setPhotos(photos.map(p =>
         p._id === photo._id ? photo : p
       ));
       alert("Error liking photo");
@@ -130,18 +129,18 @@ function UserPhotos({ loggedInUser }) {
           return (
             <Paper key={photo._id} sx={{ maxWidth: "800px", margin: "20px auto", padding: "20px" }}>
               <img src={`${API_URL}/images/${photo.file_name}`} className="photo-detail" alt="" />
-              {/* <br />
-              <hr /> */}
+              <br />
+              <hr />
               <Box sx={{ display: "flex", gap: 1, justifyContent: "space-between", alignItems: "center" }}>
-                {/* <Button
+                <Button
                   onClick={() => handleClickLikePhoto(photo)}
                   startIcon={isLiked ? <ThumbUpIcon /> : <ThumbUpOutlinedIcon />}
                 >
                   <Typography>{likeCount}</Typography>
-                </Button> */}
-                {/* {(photo.user_id === loggedInUser._id || loggedInUser.role === "Admin") && (
+                </Button>
+                {(photo.user_id === loggedInUser._id || loggedInUser.role === "Admin") && (
                   <Button variant="contained" color="error" onClick={() => handleDeletePhoto(photo)} sx={{ marginBlock: "10px" }}>DELETE PHOTO</Button>
-                )} */}
+                )}
               </Box>
 
               <hr />
@@ -155,9 +154,9 @@ function UserPhotos({ loggedInUser }) {
                     {new Date(comment.date_time).toLocaleString()}
                   </Typography>
                   <Typography>{comment.comment}</Typography>
-                  {/* {(comment.user._id === loggedInUser._id || loggedInUser.role === "Admin") && (
+                  {(comment.user._id === loggedInUser._id || loggedInUser.role === "Admin") && (
                     <Button variant="outlined" color="error" onClick={() => handleDeleteComment(photo, comment)}>Delete comment</Button>
-                  )} */}
+                  )}
                   <hr />
                 </div>
               ))}

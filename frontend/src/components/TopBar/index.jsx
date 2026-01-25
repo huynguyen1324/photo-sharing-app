@@ -66,7 +66,7 @@ function TopBar({ user, setUser }) {
                 ref={uploadRef}
                 onChange={handleUploadPhoto}
               />
-              {/* <Button variant="contained" color="info" onClick={handleViewProfile}>PROFILE</Button> */}
+              <Button variant="contained" color="info" onClick={handleViewProfile}>PROFILE</Button>
               <Button variant="contained" color="error" onClick={handleLogout}>LOGOUT</Button>
             </>
           ) : (

@@ -97,11 +97,11 @@ function UserDetail({ loggedInUser }) {
       <Typography>
         <strong>Description: </strong> {user.description}
       </Typography>
-      {/* <Typography>
+      <Typography>
         <strong>Role: {user.role}</strong> 
-      </Typography> */}
+      </Typography>
       <br />
-      {/* {user._id !== loggedInUser._id ? (
+      {user._id !== loggedInUser._id ? (
         <>
           <Typography sx={{ mb: 1 }}>
             <strong>Friend state: </strong> {friendState}
@@ -135,7 +135,7 @@ function UserDetail({ loggedInUser }) {
         >
           View all friends
         </Button>
-      )} */}
+      )}
       <br />
       <Button
         variant="contained"
@@ -145,21 +145,21 @@ function UserDetail({ loggedInUser }) {
         View all photos
       </Button>
       <br />
-      {/* <Button
+      <Button
         variant="contained"
         onClick={() => navigate(`/users/${user._id}/comments`)}
         sx={{ marginRight: "10px", marginBottom: "10px" }}
       >
         View all comments
-      </Button> */}
+      </Button>
       <br />
-      {/* <Button
+      <Button
         variant="contained"
         onClick={() => navigate(`/users/${user._id}/blogs`)}
         sx={{ marginRight: "10px", marginBottom: "10px" }}
       >
         View all blogs
-      </Button> */}
+      </Button>
       <br />
     </div>
   );

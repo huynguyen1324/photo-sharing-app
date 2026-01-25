@@ -17,10 +17,6 @@ function Home({ user }) {
         fetchData();
     }, [API_URL]);
 
-    const handleClickPhoto = (photo) => {
-        navigate(`/photos/${photo._id}`);
-    }
-
     return (
         <>
             <Paper sx={{ width: "100", padding: "30px" }}>
@@ -28,12 +24,6 @@ function Home({ user }) {
                 <br />
                 <Typography variant="h6">Let's start exploring. Do you want to upload a photo?</Typography>
             </Paper>
-            {/* <br />
-            {photos.map((photo) => (
-                <div className="image-box" key={photo._id} onClick={() => handleClickPhoto(photo)}>
-                    <img src={`${API_URL}/images/${photo.file_name}`} className="image" alt="" />
-                </div>
-            ))} */}
         </>
     )
 }
